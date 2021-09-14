@@ -6,7 +6,7 @@ module.exports.getCards = async (request, response) => {
 
     response.status(200).send(cards);
 
-  } catch(err) {
+  } catch (err) {
     console.error(`Oops: ${err.name}`);
     console.error(`Oops: ${err.message}`);
 
@@ -27,7 +27,7 @@ module.exports.getCard = async (request, response) => {
 
     response.status(200).send(card);
 
-  } catch(err) {
+  } catch (err) {
     console.error(`Oops: ${err.name}`);
     console.error(`Oops: ${err.message}`);
 
@@ -48,7 +48,7 @@ module.exports.createCard = async (request, response) => {
 
     response.status(200).send(card);
 
-  } catch(err) {
+  } catch (err) {
     console.error(`Oops: ${err.name}`);
     console.error(`Oops: ${err.message}`);
 
@@ -74,7 +74,7 @@ module.exports.deleteCard = async (request, response) => {
 
     response.status(200).send({message: 'Карточка удалена'});
 
-  } catch(err) {
+  } catch (err) {
     console.error(`Oops: ${err.name}`);
     console.error(`Oops: ${err.message}`);
 
@@ -82,6 +82,34 @@ module.exports.deleteCard = async (request, response) => {
       response.status(404).send({message: `Карточка с id: ${request.params._id} не найдена`});
       return;
     }
+
+    response.status(500).send({message: '500 ошибка на сервере'});
+  }
+};
+
+module.exports.likeCard = async (request, response) => {
+  try {
+    await Card.findByIdAndUpdate(request.params._id, {$addToSet: {likes: request.user._id}}, {new: true});
+
+    response.status(200).send({message: 'Ok'});
+
+  } catch (err) {
+    console.error(`Oops: ${err.name}`);
+    console.error(`Oops: ${err.message}`);
+
+    response.status(500).send({message: '500 ошибка на сервере'});
+  }
+};
+
+module.exports.dislikeCard = async (request, response) => {
+  try {
+    await Card.findByIdAndUpdate(request.params._id, {$pull: {likes: request.user._id}}, {new: true});
+
+    response.status(200).send({message: 'Ok'});
+
+  } catch (err) {
+    console.error(`Oops: ${err.name}`);
+    console.error(`Oops: ${err.message}`);
 
     response.status(500).send({message: '500 ошибка на сервере'});
   }

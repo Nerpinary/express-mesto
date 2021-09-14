@@ -66,3 +66,41 @@ module.exports.createUser = async (request, response) => {
     response.status(500).send({message: '500 ошибка на сервере'});
   }
 };
+
+module.exports.updateAvatar = (request, response) => {
+  try {
+    const {avatar} = request.body;
+
+    User.findByIdAndUpdate(request.user._id, {avatar}, {new: true, runValidators: true});
+
+    response.status(200).send({message: 'Ok'});
+  } catch (err) {
+    console.error(err);
+
+    if (err.name === 'ValidationError' || err.name === 'CastError') {
+      response.status(400).send({message: 'Введены некорректные данные'});
+      return;
+    }
+
+    response.status(500).send({message: '500 ошибка на сервере'});
+  }
+};
+
+module.exports.updateAvatar = (request, response) => {
+  try {
+    const { name, about } = request.body;
+
+    User.findByIdAndUpdate(request.user._id, { name, about }, { new: true, runValidators: true });
+
+    response.status(200).send({message: 'Ok'});
+  } catch (err) {
+    console.error(err);
+
+    if (err.name === 'ValidationError' || err.name === 'CastError') {
+      response.status(400).send({message: 'Введены некорректные данные'});
+      return;
+    }
+
+    response.status(500).send({message: '500 ошибка на сервере'});
+  }
+};
