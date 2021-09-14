@@ -7,10 +7,9 @@ module.exports.getUsers = async (request, response) => {
     response.status(200).send(users);
 
   } catch(err) {
-    console.error(`Oops: ${err.name}`);
-    console.error(`Oops: ${err.message}`);
+    console.error(err);
 
-    response.status(500).send({message: '500 ошибка на сервере'});
+    response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
 
@@ -28,42 +27,28 @@ module.exports.getUser = async (request, response) => {
     response.status(200).send(user);
 
   } catch(err) {
-    console.error(`Oops: ${err.name}`);
-    console.error(`Oops: ${err.message}`);
+    console.error(err);
 
-    if (err.name === 'CastError') {
-      response.status(404).send({message: `Пользователь с id: ${_id} не найден`});
-
-      console.error(`Oops: ${err.message}`);
-      return;
-    }
-
-    response.status(500).send({message: '500 ошибка на сервере'});
+    response.status(400).send({message: `Произошла ошибка ${err.name}`});
   }
 };
 
 module.exports.createUser = async (request, response) => {
   try {
     const {name, about, avatar} = request.body;
-
-    console.log(request);
-    console.log(name, about, avatar);
-
     const user = await User.create({name, about, avatar});
 
-    response.status(200).send(user);
+    response.status(201).send(user);
 
   } catch(err) {
     console.error(err);
-    console.error(`Oops: ${err.name}`);
-    console.error(`Oops: ${err.message}`);
 
     if (err.name === 'ValidationError') {
       response.status(400).send({message: 'Введены некорректные данные'});
       return;
     }
 
-    response.status(500).send({message: '500 ошибка на сервере'});
+    response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
 
@@ -76,15 +61,8 @@ module.exports.updateAvatar = (request, response) => {
     response.status(200).send({message: 'Ok'});
   } catch (err) {
     console.error(err);
-    console.error(`Oops: ${err.name}`);
-    console.error(`Oops: ${err.message}`);
 
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      response.status(400).send({message: 'Введены некорректные данные'});
-      return;
-    }
-
-    response.status(500).send({message: '500 ошибка на сервере'});
+    response.status(400).send({message: `Произошла ошибка  ${err.name}`});
   }
 };
 
@@ -98,11 +76,6 @@ module.exports.updateProfile = (request, response) => {
   } catch (err) {
     console.error(err);
 
-    if (err.name === 'ValidationError' || err.name === 'CastError') {
-      response.status(400).send({message: 'Введены некорректные данные'});
-      return;
-    }
-
-    response.status(500).send({message: '500 ошибка на сервере'});
+    response.status(400).send({message: `Произошла ошибка  ${err.name}`});
   }
 };

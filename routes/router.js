@@ -7,9 +7,9 @@ const errNotFound = (request, response) => response.status(404).send({message: '
 router.use(routerCards);
 router.use(routerUsers);
 
-router.get('/', errNotFound);
-router.post('/', errNotFound);
-router.get('/:url', errNotFound);
-router.post('/:url', errNotFound);
+router.use('/', errNotFound);
+router.use('/', errNotFound);
+router.use('/:url', errNotFound);
+router.use('/:url', errNotFound);
 
 module.exports = router;
