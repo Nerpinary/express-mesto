@@ -76,6 +76,8 @@ module.exports.updateAvatar = (request, response) => {
     response.status(200).send({message: 'Ok'});
   } catch (err) {
     console.error(err);
+    console.error(`Oops: ${err.name}`);
+    console.error(`Oops: ${err.message}`);
 
     if (err.name === 'ValidationError' || err.name === 'CastError') {
       response.status(400).send({message: 'Введены некорректные данные'});
@@ -86,7 +88,7 @@ module.exports.updateAvatar = (request, response) => {
   }
 };
 
-module.exports.updateAvatar = (request, response) => {
+module.exports.updateProfile = (request, response) => {
   try {
     const { name, about } = request.body;
 
