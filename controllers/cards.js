@@ -29,7 +29,12 @@ module.exports.getCard = async (request, response) => {
   } catch (err) {
     console.error(err);
 
-    response.status(400).send({message: `Произошла ошибка ${err.name}`});
+    if (err.name === 'CastError') {
+      response.status(400).send({message: `Произошла ошибка ${err.name}`});
+      return;
+    }
+
+    response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
 
@@ -48,7 +53,6 @@ module.exports.createCard = async (request, response) => {
       response.status(400).send({message: 'Переданы некорректные данные'});
       return;
     }
-
     response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
@@ -69,14 +73,18 @@ module.exports.deleteCard = async (request, response) => {
   } catch (err) {
     console.error(err);
 
-    response.status(400).send({message: `Произошла ошибка ${err.name}`});
+    if (err.name === 'CastError') {
+      response.status(400).send({message: `Произошла ошибка ${err.name}`});
+      return;
+    }
+
+    response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
 
 module.exports.likeCard = async (request, response) => {
   try {
     await Card.findByIdAndUpdate(request.params._id, {$addToSet: {likes: request.user._id}}, {new: true});
-
     response.status(200).send({message: 'Ok'});
 
   } catch (err) {

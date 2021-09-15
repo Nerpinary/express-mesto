@@ -8,8 +8,5 @@ router.use(routerCards);
 router.use(routerUsers);
 
 router.use('/', errNotFound);
-router.use('/', errNotFound);
-router.use('/:url', errNotFound);
-router.use('/:url', errNotFound);
 
 module.exports = router;
