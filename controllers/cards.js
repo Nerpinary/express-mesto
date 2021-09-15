@@ -90,6 +90,11 @@ module.exports.likeCard = async (request, response) => {
   } catch (err) {
     console.error(err);
 
+    if (err.name === 'CastError') {
+      response.status(400).send({message: `Произошла ошибка ${err.name}`});
+      return;
+    }
+
     response.status(500).send({message: 'Ошибка на сервере'});
   }
 };
@@ -102,6 +107,11 @@ module.exports.dislikeCard = async (request, response) => {
 
   } catch (err) {
     console.error(err);
+
+    if (err.name === 'CastError') {
+      response.status(400).send({message: `Произошла ошибка ${err.name}`});
+      return;
+    }
 
     response.status(500).send({message: 'Ошибка на сервере'});
   }
