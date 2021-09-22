@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/whodef/express-mesto.git"
+    "url": "git+https://github.com/nerpinary/express-mesto.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/whodef/express-mesto/issues"
+    "url": "https://github.com/nerpinary/express-mesto/issues"
   },
-  "homepage": "https://github.com/whodef/express-mesto#readme"
+  "homepage": "https://github.com/nerpinary/express-mesto#readme"
 }

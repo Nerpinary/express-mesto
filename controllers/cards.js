@@ -84,7 +84,15 @@ module.exports.deleteCard = async (request, response) => {
 
 module.exports.likeCard = async (request, response) => {
   try {
+    const like = await Card.findById(request.params._id);
+
+    if (!like) {
+      response.status(404).send({message: 'Произошла ошибка'});
+      return;
+    }
+
     await Card.findByIdAndUpdate(request.params._id, {$addToSet: {likes: request.user._id}}, {new: true});
+
     response.status(200).send({message: 'Ok'});
 
   } catch (err) {
@@ -101,6 +109,13 @@ module.exports.likeCard = async (request, response) => {
 
 module.exports.dislikeCard = async (request, response) => {
   try {
+    const dislike = await Card.findById(request.params._id);
+
+    if (!dislike) {
+      response.status(404).send({message: 'Произошла ошибка'});
+      return;
+    }
+
     await Card.findByIdAndUpdate(request.params._id, {$pull: {likes: request.user._id}}, {new: true});
 
     response.status(200).send({message: 'Ok'});

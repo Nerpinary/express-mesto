@@ -1,21 +1,21 @@
 const express = require('express');
 const router = require('./routes/router');
 const mongoose = require('mongoose');
-//const MongoClient = require('mongodb');
+const MongoClient = require('mongodb');
 
 const app = express();
 const {PORT = 3000} = process.env;
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,
+    useCreateIndex: true,
+    useFindAndModify: false,
     useUnifiedTopology: true
   });
 
 app.use((request, response, next) => {
   request.user = {
-    _id: '6140f739b9d8dd1d88b272c6',
+    _id: "614b4f409712c41a100ece46",
   };
 
   next();
