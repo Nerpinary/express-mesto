@@ -64,7 +64,7 @@ module.exports.updateAvatar = (request, response) => {
 
     User.findByIdAndUpdate(request.user._id, {avatar}, {new: true, runValidators: true});
 
-    response.status(200).send(user);
+    response.status(200).send({avatar});
 
   } catch (err) {
     console.error(err);
@@ -84,7 +84,7 @@ module.exports.updateProfile = (request, response) => {
 
     User.findByIdAndUpdate(request.user._id, {name, about}, {new: true, runValidators: true});
 
-    response.status(200).send(user);
+    response.status(200).send({name, about});
 
   } catch (err) {
     console.error(err);
