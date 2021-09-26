@@ -40,7 +40,7 @@ const createUser = (request, response, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new DataError('Введены неверные данные'));
-      } else if (err.name === 'MongoError' && err.code === 11000) {
+      } else if (err.name === 'MongoServerError' && err.code === 11000) {
         next(new ConflictError('Данный почтовый ящик уже занят'));
       } else {
         next(err);

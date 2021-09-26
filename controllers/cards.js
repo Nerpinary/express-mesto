@@ -3,6 +3,7 @@ const Card = require('../models/card');
 const DataError = require('../errors/data_error');
 const AccessDeniedError = require('../errors/access_denied_error');
 const NotFoundError = require('../errors/not_found_error');
+const ServerError = require('../errors/server_error');
 
 const getCards = (request, response, next) => {
   Card.find({})
@@ -19,8 +20,7 @@ const getCard = async (request, response) => {
     const card = await Card.findById(_id);
 
     if (!card) {
-      response.status(404).send({message: `Карточка с id: ${_id} не найдена`});
-      return;
+      throw new NotFoundError(`Карточка с id: ${_id} не найдена`);
     }
 
     response.status(200).send(card);
@@ -29,11 +29,11 @@ const getCard = async (request, response) => {
     console.error(err);
 
     if (err.name === 'CastError') {
-      response.status(400).send({message: `Произошла ошибка ${err.name}`});
+      next(new DataError(`Произошла ошибка ${err.name}`));
       return;
     }
 
-    response.status(500).send({message: 'Ошибка на сервере'});
+    next(ServerError('Ошибка на сервере'));
   }
 };
 
@@ -57,7 +57,7 @@ const deleteCard = (request, response, next) => {
   Card.findById(_id)
     .orFail(() => new NotFoundError('Карточка не найдена'))
     .then((card) => {
-      if (JSON.stringify(request.user._id) === JSON.stringify(card.owner)) {
+      if (!card.owner.equals(request.user._id)) {
         Card.findByIdAndRemove(_id)
           .then((result) => {
             response.send(result);
