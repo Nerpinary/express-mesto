@@ -57,7 +57,7 @@ const deleteCard = (request, response, next) => {
   Card.findById(_id)
     .orFail(() => new NotFoundError('Карточка не найдена'))
     .then((card) => {
-      if (!card.owner.equals(request.user._id)) {
+      if (card.owner.equals(request.user._id)) {
         Card.findByIdAndRemove(_id)
           .then((result) => {
             response.send(result);
