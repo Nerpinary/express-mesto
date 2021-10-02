@@ -1,3 +1,6 @@
+/* eslint-disable eol-last */
+/* eslint-disable no-undef */
+/* eslint-disable no-console */
 const Card = require('../models/card');
 
 const DataError = require('../errors/data_error');
@@ -14,7 +17,7 @@ const getCards = (request, response, next) => {
 };
 
 const getCard = async (request, response) => {
-  const {_id} = request.params;
+  const { _id } = request.params;
 
   try {
     const card = await Card.findById(_id);
@@ -24,11 +27,11 @@ const getCard = async (request, response) => {
     }
 
     response.status(200).send(card);
-
   } catch (err) {
     console.error(err);
 
     if (err.name === 'CastError') {
+      // eslint-disable-next-line no-undef
       next(new DataError(`Произошла ошибка ${err.name}`));
       return;
     }

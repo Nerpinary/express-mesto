@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
       validator(link) {
         return validator.isURL(link, { protocols: ['http', 'https'], require_protocol: true });
       },
-      message: "Некорректный URL",
+      message: 'Некорректный URL',
     },
   },
   email: {

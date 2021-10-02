@@ -1,6 +1,6 @@
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 const DataError = require('../errors/data_error');
 const AuthError = require('../errors/auth_error');
@@ -23,7 +23,7 @@ const getUser = (request, response, next) => User.findById(request.params._id)
     } else {
       next(err);
     }
-});
+  });
 
 const createUser = (request, response, next) => {
   const {
@@ -114,5 +114,5 @@ const getCurrentUser = (request, response, next) => User.findById(request.user._
   });
 
 module.exports = {
-    getUsers, getUser, createUser, updateUser, updateAvatar, login, getCurrentUser,
+  getUsers, getUser, createUser, updateUser, updateAvatar, login, getCurrentUser,
 };
