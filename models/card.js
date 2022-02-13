@@ -16,6 +16,7 @@ const cardSchema = new mongoose.Schema({
       },
       message: 'Некорректный URL',
     },
+  },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
@@ -30,6 +31,5 @@ const cardSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-  },
 });
 module.exports = mongoose.model('card', cardSchema);
