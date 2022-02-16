@@ -9,6 +9,13 @@ const { login } = require('./controllers/users');
 const { createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not_found_error');
+const allowedCors = [
+  'https://praktikum.tk',
+  'http://praktikum.tk',
+  'localhost:3000',
+  'https://nerpinary.nomoredomains.club',
+  'http://nerpinary.nomoredomains.club'
+];
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -21,6 +28,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());
+app.use(function(req, res, next) {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
