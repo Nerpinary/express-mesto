@@ -29,6 +29,14 @@ app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());
 
+app.use((request, response, next) => {
+  request.user = {
+    _id: '620d47d95da04d2b46620f54',
+  };
+
+  next();
+});
+
 app.use(function (req,res,next) {
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
 
